@@ -22,15 +22,15 @@ alphabets="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 numbers="0123456789"
 special_characters="!@#$%^&*()-_=+[]{}|;:,.<>?/~"
 
-# Build the character set based on user input
+# Build the character set based on user input (accepts yes, y, Y, or Enter for "yes")
 char_set=""
-if [[ "$include_alphabets" == "yes" ]]; then
+if [[ "$include_alphabets" =~ ^([yY][eE][sS]|[yY]?)$ ]]; then
     char_set+="$alphabets"
 fi
-if [[ "$include_numbers" == "yes" ]]; then
+if [[ "$include_numbers" =~ ^([yY][eE][sS]|[yY]?)$ ]]; then
     char_set+="$numbers"
 fi
-if [[ "$include_special" == "yes" ]]; then
+if [[ "$include_special" =~ ^([yY][eE][sS]|[yY]?)$ ]]; then
     char_set+="$special_characters"
 fi
 
@@ -59,7 +59,8 @@ for (( i=1; i<=num_passwords; i++ ))
 do
     password=$(generate_password "$password_length" "$char_set")
     echo "$password" >> "$output_file"
-    cat "$output_file"
 done
 
-echo "$num_passwords passwords have been generated and saved in $output_file"
+# Display the generated passwords
+cat "$output_file"
+echo "$num_passwords passwords have been generated and saved in $output_file."
